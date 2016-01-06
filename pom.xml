@@ -19,6 +19,7 @@
 		<module>module/platform-redis</module>
 		<module>module/platform-memcached</module>
 		<module>module/platform-power</module>
+		<module>module/platform-file</module>
 	</modules>
 
 	<properties>
