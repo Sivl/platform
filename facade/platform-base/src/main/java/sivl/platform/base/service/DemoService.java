@@ -1,0 +1,1 @@
+package sivl.platform.base.service;import sivl.platform.base.model.DemoModel;/** * demo服务<br/> * 目的：用于提供demo * @author lixuefeng * @createTime 2015年12月24日 * @version 1.0 */public interface DemoService {	DemoModel getDemo();}

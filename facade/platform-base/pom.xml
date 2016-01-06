@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sivl</groupId>
+    <artifactId>sivl-platform-centre</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+	<relativePath>../../pom.xml</relativePath>
+  </parent>
+  <artifactId>platform-base</artifactId>
+  <name>platform-base</name>
+  <packaging>war</packaging>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spring.version>4.2.1.RELEASE</spring.version>
+  </properties>
+  
+  <dependencies>
+    	<!-- 内部项目依赖 -->
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-common</artifactId>
+			<version>${project.version}</version> 
+		</dependency>
+		<!-- 日志模块 -->
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-mongodb</artifactId>
+			<version>${project.version}</version> 
+		</dependency>
+		<!-- 缓存模块 -->
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-redis</artifactId>
+			<version>${project.version}</version> 
+		</dependency>
+		<!-- db 连接模块 -->
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-datebase</artifactId>
+			<version>${project.version}</version> 
+		</dependency>
+		
+  </dependencies>
+  
+  <build>
+		<finalName>platform</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<!-- c 插件 -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>8.1.8.v20121106</version>
+				<configuration>
+					<!-- 增加systemProperties属性 -->
+					<systemProperties>
+						<systemProperty>
+							<name>org.eclipse.jetty.server.Request.maxFormContentSize</name>
+							<!-- -1代表不作限制 -->
+							<value>-1</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+			</plugin>
+			<!-- tomcat 插件 -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<path>/</path>
+					<port>8090</port>
+					<uriEncoding>UTF-8</uriEncoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.15</version>
+				<configuration>
+					<forkMode>once</forkMode>
+					<argLine>-Xmx256M</argLine>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+					<systemProperties>
+						<property>
+							<name>net.sourceforge.cobertura.datafile</name>
+							<value>target/cobertura/cobertura.ser</value>
+						</property>
+					</systemProperties>
+					<!-- 单元测试 <includes> <include>**/*Tests.java</include> </includes> -->
+<!-- 					<excludes> -->
+<!-- 						<exclude>**/BaseTest.java</exclude> -->
+<!-- 						<exclude>**/ActionTest.java</exclude> -->
+<!-- 					</excludes> -->
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<skip>false</skip>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+	
+</project>

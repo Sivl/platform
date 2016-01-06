@@ -1,0 +1,1 @@
+package sivl.platform.common;import java.util.HashMap;import java.util.Map;public class Test {		public static void main(String[] args) {		Map<String,String> map = new HashMap<String, String>();		map.put("sdf", "kkkkk");		map.put("fff", "kkkkk");		map.put("ssss", "kkkkk");		System.out.println(map.toString());	}}

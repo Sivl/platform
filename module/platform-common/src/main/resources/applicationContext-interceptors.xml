@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:oxm="http://www.springframework.org/schema/oxm" 
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/oxm 
+        http://www.springframework.org/schema/oxm/spring-oxm.xsd">
+
+
+	<!-- CSRF 拦截 -->
+	<bean id="csrfFilter" class="sivl.platform.common.filter.CSRFHandlerInterceptor"></bean>
+	<!-- 令牌         拦截  -->
+	<bean id="tockenFilter" class="sivl.platform.common.filter.TokenHandInterceptor"></bean>
+	<!-- 重复提交 拦截 -->
+	<bean id="resubmitFilter" class="sivl.platform.common.filter.ResubmitHandlerInterceptor"></bean>
+	<!-- 拦截链 -->    
+	<mvc:interceptors>
+		<mvc:interceptor>
+	    	<mvc:mapping path="/**"/>
+	        <ref bean="csrfFilter"/>
+	    </mvc:interceptor>
+	    <mvc:interceptor>
+	    	<mvc:mapping path="/**"/>
+	        <ref bean="tockenFilter"/> 
+	    </mvc:interceptor>
+	    <mvc:interceptor>
+	    	<mvc:mapping path="/**"/>
+	        <ref bean="resubmitFilter"/>  
+	    </mvc:interceptor>
+	</mvc:interceptors>   
+
+</beans>

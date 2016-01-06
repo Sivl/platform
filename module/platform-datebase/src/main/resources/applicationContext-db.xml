@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:oxm="http://www.springframework.org/schema/oxm" 
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/oxm 
+        http://www.springframework.org/schema/oxm/spring-oxm.xsd">
+
+	<!-- druid 监控地址  -->
+	<!-- /druid/index.html -->
+	<!-- /mini-web/druid/index.html  -->
+	<!-- DML操作 数据库操作语言 -->
+	<bean id="DMLDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	      <!-- 基本属性 url、user、password -->
+	      <property name="driverClassName" value="${druid.driver}" />
+	      <property name="url" value="${druid.dml.url}" />
+	      <property name="username" value="${druid.dml.user}" />
+	      <property name="password" value="${druid.dml.password}" />
+	
+	      <!-- 配置初始化大小、最小、最大 -->
+	      <property name="initialSize" value="${druid.dml.initialSize}" />
+	      <property name="minIdle" value="${druid.dml.minIdle}" /> 
+	      <property name="maxActive" value="${druid.dml.maxActive}" />
+	
+	      <!-- 配置获取连接等待超时的时间 -->
+	      <property name="maxWait" value="${druid.dml.maxWait}" />
+	
+	      <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	      <property name="timeBetweenEvictionRunsMillis" value="${druid.dml.timeBetweenEvictionRunsMillis}" />
+	
+	      <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	      <property name="minEvictableIdleTimeMillis" value="${druid.dml.minEvictableIdleTimeMillis}" />
+	
+	      <property name="validationQuery" value="${druid.dml.validationQuery}" />
+	      <property name="testWhileIdle" value="${druid.dml.testWhileIdle}" />
+	      <property name="testOnBorrow" value="${druid.dml.testOnBorrow}" />
+	      <property name="testOnReturn" value="${druid.dml.testOnReturn}" />
+	
+	      <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	      <property name="poolPreparedStatements" value="${druid.dml.poolPreparedStatements}" />
+	      <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.dml.maxPoolPreparedStatementPerConnectionSize}" />
+	
+	      <!-- 配置监控统计拦截的filters -->
+	      <property name="filters" value="wall"/>
+	      <property name="proxyFilters">
+		        <list>
+		            <ref bean="stat-filter" />
+		            <ref bean="log-filter" />
+		        </list>
+		  </property>
+	  </bean>
+	  
+	  <!-- DQL操作 数据库查询语言 -->
+	<bean id="DQLDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
+	      <!-- 基本属性 url、user、password -->
+	      <property name="driverClassName" value="${druid.driver}" />
+	      <property name="url" value="${druid.dql.url}" />
+	      <property name="username" value="${druid.dql.user}" />
+	      <property name="password" value="${druid.dql.password}" />
+	
+	      <!-- 配置初始化大小、最小、最大 -->
+	      <property name="initialSize" value="${druid.dql.initialSize}" />
+	      <property name="minIdle" value="${druid.dql.minIdle}" /> 
+	      <property name="maxActive" value="${druid.dql.maxActive}" />
+	
+	      <!-- 配置获取连接等待超时的时间 -->
+	      <property name="maxWait" value="${druid.dql.maxWait}" />
+	
+	      <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	      <property name="timeBetweenEvictionRunsMillis" value="${druid.dql.timeBetweenEvictionRunsMillis}" />
+	
+	      <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	      <property name="minEvictableIdleTimeMillis" value="${druid.dql.minEvictableIdleTimeMillis}" />
+	
+	      <property name="validationQuery" value="${druid.dql.validationQuery}" />
+	      <property name="testWhileIdle" value="${druid.dql.testWhileIdle}" />
+	      <property name="testOnBorrow" value="${druid.dql.testOnBorrow}" />
+	      <property name="testOnReturn" value="${druid.dql.testOnReturn}" />
+	
+	      <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+	      <property name="poolPreparedStatements" value="${druid.dql.poolPreparedStatements}" />
+	      <property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.dql.maxPoolPreparedStatementPerConnectionSize}" />
+	
+	      <!-- 配置监控统计拦截的filters -->
+	      <property name="filters" value="wall"/>
+	      <property name="proxyFilters">
+		        <list>
+		            <ref bean="stat-filter" />
+		            <ref bean="log-filter" />
+		        </list>
+		  </property>
+	  </bean>
+	  
+	  <!-- sql监控 -->
+	  <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		    <property name="slowSqlMillis" value="${druid.slowSqlMillis}" />
+		    <property name="logSlowSql" value="${druid.logSlowSql}" />
+		    <!-- 监控sql进行合并 -->
+		    <property name="mergeSql" value="${druid.mergeSql}" />
+	  </bean>
+	  
+	  <!-- 记录日志 -->
+	  <bean id="log-filter" class="com.alibaba.druid.filter.logging.Log4jFilter">
+	    	
+	  </bean>
+
+</beans>

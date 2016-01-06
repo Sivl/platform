@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:oxm="http://www.springframework.org/schema/oxm" 
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo" 
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/oxm 
+        http://www.springframework.org/schema/oxm/spring-oxm.xsd
+        http://www.springframework.org/schema/data/mongo 
+        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd ">
+
+
+	<!-- 1启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射,启用此标签，自定义的拦截链不会起效 -->
+    <mvc:annotation-driven />
+    
+	<!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
+	<context:component-scan base-package="sivl.platform.*.filter,sivl.platform.*.adapter,sivl.platform.*.controller,sivl.platform.*.service,sivl.platform.*.dao,sivl.platform.*.model,sivl.platform.*.utils" />
+
+	<!-- 对静态资源文件的访问 不支持访问WEB-INF目录 -->
+	<mvc:default-servlet-handler />
+	<!-- 对静态资源文件的访问 支持访问WEB-INF目录 -->
+	<!-- <mvc:resources location="/####/" mapping="/####/**" /> -->
+
+	<bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">  
+        <!-- 设置为true以忽略对Accept Header的支持 -->
+		<property name="ignoreAcceptHeader" value="true" />
+		  
+        <!-- 用于关闭 /###/123.json 的支持 默认是true -->
+		<property name="favorPathExtension" value="true"/> 
+		
+        <!-- 在没有扩展名时即: "/###/1" 时的默认展现形式 -->
+		<property name="defaultContentType" value="text/html" />
+		
+        <!-- 用于开启 /###/123?format=json 的支持 -->
+		<property name="favorParameter" value="true" /> 
+		
+        <!-- 扩展名至mimeType的映射,即 /###.json => application/json -->
+		<property name="mediaTypes">
+			<map>
+				<entry key="xml" value="application/xml" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property> 
+    </bean> 
+
+	<!--根据客户端的不同的请求决定不同的view进行响应,如 /###/1.json /###/1.xml-->
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="contentNegotiationManager" ref="cnManager"/>  
+		<!-- 视图解析 -->
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+				<!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
+	            <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+	            	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+	                <property name="prefix" value="/WEB-INF/demo/"/>
+	                <property name="suffix" value=".jsp"/>
+	            </bean>
+				<!-- 针对freemarker的视图配置--> 
+				<bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
+                    <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>  
+                    <property name="viewNames" value=".ftl"/>  
+                    <property name="contentType" value="text/html; charset=utf-8"/>  
+                    <property name="cache" value="true" />  
+                    <property name="prefix" value="" />  
+                    <property name="suffix" value="" /> 
+                    <property name="order" value="3"/> 
+                </bean>
+			</list>
+		</property>
+		<!-- 默认视图 -->
+		<property name="defaultViews">
+			<list>
+				<!-- for application/json -->
+				<ref bean="jsonView" />
+				<!-- 对xml解析 -->
+				<ref bean="xmlView" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- json view -->
+	<bean name="jsonView"
+        class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+    </bean>
+    <!-- xml view -->
+    <bean name="xmlView" class="org.springframework.web.servlet.view.xml.MarshallingView">  
+		<constructor-arg>
+			<ref bean="xmlPackList" />
+		</constructor-arg>
+    </bean>
+     
+    <!-- 同过实体路径进行加载 -->
+    <bean id="xmlModelList" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+		<property name="classesToBeBound">
+            <list>
+                <value>sivl.platform.base.model.DemoModel</value>
+            </list>
+        </property>
+	</bean>
+	
+    <!-- 通过包扫描实体 -->
+    <bean id="xmlPackList" class="sivl.platform.base.extend3core.XMLModelScanExtend"> 
+		<property name="packages">
+            <list>
+                <value>sivl.platform.base.model</value>
+            </list>
+        </property>
+	</bean>
+	
+</beans>
