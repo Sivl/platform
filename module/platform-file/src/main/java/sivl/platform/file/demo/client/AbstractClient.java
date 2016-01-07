@@ -1,1 +1,0 @@
-package sivl.platform.file.demo.client;import sivl.platform.file.demo.command.AbstractCmd;/** *  * 主要功能： 提供一些公用的的方法 * @author liuli * @creationDate 2015年5月22日 下午2:36:55 */public abstract class AbstractClient {    protected String[] splitFileId(String fileid) {        return AbstractCmd.splitFileId(fileid);    }}

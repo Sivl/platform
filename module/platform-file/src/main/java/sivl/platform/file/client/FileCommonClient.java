@@ -1,5 +1,8 @@
 package sivl.platform.file.client;
 
+import sivl.platform.file.utils.FileUtils;
+
+
 /**
  * 文件上传公用客户端
  * 目的：
@@ -9,4 +12,7 @@ package sivl.platform.file.client;
  */
 public abstract class FileCommonClient {
 
+	protected String[] splitFileId(String fileId) {
+        return FileUtils.splitFileId(fileId);
+    }
 }
