@@ -20,6 +20,7 @@
 		<module>module/platform-memcached</module>
 		<module>module/platform-power</module>
 		<module>module/platform-file</module>
+		<module>module/platform-file-mini</module>
 	</modules>
 
 	<properties>
