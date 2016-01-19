@@ -10,6 +10,7 @@
 
 	<modules>
 		<module>module/platform-common</module>
+		<module>module/platform-common-web</module>
 		<module>module/platform-datebase</module>
     	<module>module/platform-report</module>
     	<module>module/platform-logs</module>
@@ -21,6 +22,9 @@
 		<module>module/platform-power</module>
 		<module>module/platform-file</module>
 		<module>module/platform-file-mini</module>
+		<module>module/platform-file-mini-web</module>
+		<module>module/platform-ue</module>
+		<module>module/platform-ue-web</module>
 	</modules>
 
 	<properties>
@@ -35,6 +39,12 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.2</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

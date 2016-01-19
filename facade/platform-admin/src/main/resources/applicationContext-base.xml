@@ -28,6 +28,9 @@
 	<!-- 对静态资源文件的访问 不支持访问WEB-INF目录 -->
 	<mvc:default-servlet-handler />
 	<!-- 对静态资源文件的访问 支持访问WEB-INF目录 -->
+	<mvc:resources location="/image/" mapping="/image/**"/> 
+	<mvc:resources location="/css/" mapping="/css/**"/> 
+	<mvc:resources location="/js/" mapping="/js/**"/>
 	<!-- <mvc:resources location="/####/" mapping="/####/**" /> -->
 
 	<bean id="cnManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">  
@@ -51,10 +54,23 @@
 			</map>
 		</property> 
     </bean> 
-
+    
+    <!-- 自定义json数据返回 -->
+	<bean class="sivl.platform.common.customview.CustomJsonViewResolver">
+		<property name="suffix" value=".cjson" />
+		<property name="view">
+			<bean class="sivl.platform.common.customview.CustomJsonView"></bean>
+		</property>
+		<property name="order" value="0" />
+	</bean>
+    
+    <!-- 文件上传解析 -->
+	<bean id="multipartResolver"  class="sivl.platform.common.customview.CustomMultipartResolver"/>
+	
 	<!--根据客户端的不同的请求决定不同的view进行响应,如 /###/1.json /###/1.xml-->
 	<bean
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="order" value="1" />
 		<property name="contentNegotiationManager" ref="cnManager"/>  
 		<!-- 视图解析 -->
 		<property name="viewResolvers">
@@ -63,7 +79,7 @@
 				<!-- 对模型视图名称的解析，在请求时模型视图名称添加前后缀 -->
 	            <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 	            	<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-	                <property name="prefix" value="/WEB-INF/demo/"/>
+	                <property name="prefix" value="/WEB-INF/"/>
 	                <property name="suffix" value=".jsp"/>
 	            </bean>
 				<!-- 针对freemarker的视图配置--> 
@@ -110,7 +126,7 @@
 	</bean>
 	
     <!-- 通过包扫描实体 -->
-    <bean id="xmlPackList" class="sivl.platform.base.extend3core.XMLModelScanExtend"> 
+    <bean id="xmlPackList" class="sivl.platform.common.extend3core.XMLModelScanExtend"> 
 		<property name="packages">
             <list>
                 <value>sivl.platform.base.model</value>

@@ -42,6 +42,38 @@
 			<artifactId>platform-datebase</artifactId>
 			<version>${project.version}</version> 
 		</dependency>
+		<!-- 文件mini上传 -->
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-file-mini</artifactId>
+			<version>${project.version}</version> 
+		</dependency>
+		<!-- ue 模块 -->
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-ue</artifactId>
+			<version>${project.version}</version> 
+		</dependency>
+		
+		<!-- 公共web -->
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-common-web</artifactId>
+			<version>${project.version}</version> 
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-file-mini-web</artifactId>
+			<version>${project.version}</version> 
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-ue-web</artifactId>
+			<version>${project.version}</version> 
+			<type>war</type>
+		</dependency>
 		
   </dependencies>
   
@@ -53,7 +85,18 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
+					<!-- <warSourceExcludes>*/lib/analyzer-2.0.4.jar</warSourceExcludes>过滤掉不想要被打进 .war包的jar -->
 					<failOnMissingWebXml>false</failOnMissingWebXml>
+					<overlays>  
+                        <overlay>  
+                            <groupId>org.sivl</groupId>  
+                            <artifactId>platform-common-web</artifactId>  
+                        </overlay>
+                        <overlay>  
+                            <groupId>org.sivl</groupId>  
+                            <artifactId>platform-file-mini-web</artifactId>  
+                        </overlay>  
+                    </overlays>
 				</configuration>
 			</plugin>
 			<!-- c 插件 -->

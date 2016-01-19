@@ -24,6 +24,7 @@
 				<value>classpath*:/mongodb-config.properties</value>
 				<value>classpath*:/redis-config.properties</value>
 				<value>classpath*:/db-config.properties</value>
+				<value>classpath*:/ue-config.properties</value>
 			</list>
 		</property>
 		<property name="fileEncoding" value="utf-8"/>

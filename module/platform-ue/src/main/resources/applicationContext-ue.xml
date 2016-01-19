@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:p="http://www.springframework.org/schema/p" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:oxm="http://www.springframework.org/schema/oxm" 
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/oxm 
+        http://www.springframework.org/schema/oxm/spring-oxm.xsd">
+
+	 <!-- ue 配置 -->
+	 <bean id="ueConfig" class="sivl.platform.ue.model.UeConfig">
+	 	<!-- 执行上传图片的action名称-->
+	 	<property name="imageActionName" value="${ue.config.imageActionName}" />
+		<!-- 提交的图片表单名称    -->
+		<property name="imageFieldName" value="${ue.config.imageFieldName}" />
+		<!-- 上传大小限制，单位B    -->
+		<property name="imageMaxSize" value="${ue.config.imageMaxSize}" />
+		<!-- 上传图片格式显示  -->
+		<property name="imageAllowFiles">
+			<array>
+				<value>.png</value> 
+				<value>.jpg</value> 
+				<value>.jpeg</value> 
+				<value>.gif</value> 
+				<value>.bmp</value> 
+			</array>
+		</property>
+		<!-- 是否压缩图片,默认是true    -->
+		<property name="imageCompressEnable" value="${ue.config.imageCompressEnable}" />
+		<!-- 图片压缩最长边限制    -->
+		<property name="imageCompressBorder" value="${ue.config.imageCompressBorder}" />
+		<!-- 插入的图片浮动方式    -->
+		<property name="imageInsertAlign" value="${ue.config.imageInsertAlign}" />
+		<!-- 图片访问路径前缀    -->
+		<property name="imageUrlPrefix" value="${ue.config.imageUrlPrefix}" />
+		<!-- 上传保存路径,可以自定义保存路径和文件名格式     -->
+		<property name="imagePathFormat" value="${ue.config.imagePathFormat}" />
+		<!-- ****************************** 涂鸦图片上传配置项 *****************************   -->
+		<!-- 执行上传涂鸦的action名称    -->
+		<property name="scrawlActionName" value="${ue.config.scrawlActionName}" />
+		<!-- 提交的图片表单名称    -->
+		<property name="scrawlFieldName" value="${ue.config.scrawlFieldName}" />
+		<!-- 上传保存路径,可以自定义保存路径和文件名格式    -->
+		<property name="scrawlPathFormat" value="${ue.config.scrawlPathFormat}" />
+		<!-- 上传大小限制，单位B    -->
+		<property name="scrawlMaxSize" value="${ue.config.scrawlMaxSize}" />
+		<!-- 图片访问路径前缀    -->
+		<property name="scrawlUrlPrefix" value="${ue.config.scrawlUrlPrefix}" />
+		<!-- 插入的图片浮动方式    -->
+		<property name="scrawlInsertAlign" value="${ue.config.scrawlInsertAlign}" />
+		<!-- ***************************** 截图工具上传*****************************   -->
+		<!-- 执行上传截图的action名称    -->
+		<property name="snapscreenActionName" value="${ue.config.snapscreenActionName}" />
+		<!-- 上传保存路径,可以自定义保存路径和文件名格式    -->
+		<property name="snapscreenPathFormat" value="${ue.config.snapscreenPathFormat}" />
+		<!-- 图片访问路径前缀    -->
+		<property name="snapscreenUrlPrefix" value="${ue.config.snapscreenUrlPrefix}" />
+		<!-- 插入的图片浮动方式    -->
+		<property name="snapscreenInsertAlign" value="${ue.config.snapscreenInsertAlign}" />
+		<!-- ***************************** 抓取远程图片配置 *****************************   -->
+		<property name="catcherLocalDomain">
+			<array>
+				<value>127.0.0.1</value>
+				<value>localhost</value>
+			</array>
+		</property>
+		<!-- 执行抓取远程图片的action名称    -->
+		<property name="catcherActionName" value="${ue.config.catcherActionName}" />
+		<!-- 提交的图片列表表单名称    -->
+		<property name="catcherFieldName" value="${ue.config.catcherFieldName}" />
+		<!-- 上传保存路径,可以自定义保存路径和文件名格式    -->
+		<property name="catcherPathFormat" value="${ue.config.catcherPathFormat}" />
+		<!-- 图片访问路径前缀    -->
+		<property name="catcherUrlPrefix" value="${ue.config.catcherUrlPrefix}" />
+		<!-- 上传大小限制，单位B    -->
+		<property name="catcherMaxSize" value="${ue.config.catcherMaxSize}" />
+		<!-- 抓取图片格式显示    -->
+		<property name="catcherAllowFiles">
+			<array>
+				<value>.png</value> 
+				<value>.jpg</value> 
+				<value>.jpeg</value> 
+				<value>.gif</value> 
+				<value>.bmp</value> 
+			</array>
+		</property>
+		<!-- ***************************** 上传视频配置 *****************************   -->
+		<!-- 执行上传视频的action名称    -->
+		<property name="videoActionName" value="${ue.config.videoActionName}" />
+		<!-- 提交的视频表单名称    -->
+		<property name="videoFieldName" value="${ue.config.videoFieldName}" />
+		<!-- 上传保存路径,可以自定义保存路径和文件名格式    -->
+		<property name="videoPathFormat" value="${ue.config.videoPathFormat}" />
+		<!-- 视频访问路径前缀    -->
+		<property name="videoUrlPrefix" value="${ue.config.videoUrlPrefix}" />
+		<!-- 上传大小限制，单位B，默认100MB    -->
+		<property name="videoMaxSize" value="${ue.config.videoMaxSize}" />
+		<!-- 上传视频格式显示    -->
+		<property name="videoAllowFiles">
+			<array>
+				<value>.flv</value>
+				<value>.swf</value> 
+				<value>.mkv</value> 
+				<value>.avi</value> 
+				<value>.rm</value> 
+				<value>.rmvb</value> 
+				<value>.mpeg</value> 
+				<value>.mpg</value>
+				<value>.ogg</value> 
+				<value>.ogv</value> 
+				<value>.mov</value> 
+				<value>.wmv</value> 
+				<value>.mp4</value> 
+				<value>.webm</value> 
+				<value>.mp3</value> 
+				<value>.wav</value> 
+				<value>.mid</value>
+			</array>
+		</property>
+		<!-- ***************************** 上传文件配置 *****************************   -->
+		<!-- controller里,执行上传视频的action名称    -->
+		<property name="fileActionName" value="${ue.config.fileActionName}" />
+		<!-- 提交的文件表单名称    -->
+		<property name="fileFieldName" value="${ue.config.fileFieldName}" />
+		<!-- 上传保存路径,可以自定义保存路径和文件名格式    -->
+		<property name="filePathFormat" value="${ue.config.filePathFormat}" />
+		<!-- 文件访问路径前缀    -->
+		<property name="fileUrlPrefix" value="${ue.config.fileUrlPrefix}" />
+		<!-- 上传大小限制，单位B，默认50MB    -->
+		<property name="fileMaxSize" value="${ue.config.fileMaxSize}" />
+		<!-- 上传文件格式显示    -->
+		<property name="fileAllowFiles">
+			<array>
+				<value>.png</value> 
+				<value>.jpg</value> 
+				<value>.jpeg</value> 
+				<value>.gif</value> 
+				<value>.bmp</value>
+				<value>.flv</value> 
+				<value>.swf</value> 
+				<value>.mkv</value> 
+				<value>.avi</value> 
+				<value>.rm</value> 
+				<value>.rmvb</value> 
+				<value>.mpeg</value> 
+				<value>.mpg</value>
+				<value>.ogg</value> 
+				<value>.ogv</value> 
+				<value>.mov</value> 
+				<value>.wmv</value> 
+				<value>.mp4</value> 
+				<value>.webm</value> 
+				<value>.mp3</value> 
+				<value>.wav</value> 
+				<value>.mid</value>
+				<value>.rar</value> 
+				<value>.zip</value> 
+				<value>.tar</value> 
+				<value>.gz</value> 
+				<value>.7z</value> 
+				<value>.bz2</value> 
+				<value>.cab</value> 
+				<value>.iso</value>
+				<value>.doc</value> 
+				<value>.docx</value> 
+				<value>.xls</value> 
+				<value>.xlsx</value> 
+				<value>.ppt</value> 
+				<value>.pptx</value> 
+				<value>.pdf</value> 
+				<value>.txt</value> 
+				<value>.md</value> 
+				<value>.xml</value> 
+			</array>
+		</property>
+		<!-- ***************************** 列出指定目录下的图片 *****************************   -->
+		<!-- 执行图片管理的action名称    -->
+		<property name="imageManagerActionName" value="${ue.config.imageManagerActionName}" />
+		<!-- 指定要列出图片的目录    -->
+		<property name="imageManagerListPath" value="${ue.config.imageManagerListPath}" />
+		<!-- 每次列出文件数量    -->
+		<property name="imageManagerListSize" value="${ue.config.imageManagerListSize}" />
+		<!-- 图片访问路径前缀    -->
+		<property name="imageManagerUrlPrefix" value="${ue.config.imageManagerUrlPrefix}" />
+		<!-- 插入的图片浮动方式    -->
+		<property name="imageManagerInsertAlign" value="${ue.config.imageManagerInsertAlign}" />
+		<!-- 列出的文件类型    -->
+		<property name="imageManagerAllowFiles">
+			<array>
+				<value>png</value> 
+				<value>jpg</value> 
+				<value>jpeg</value> 
+				<value>gif</value> 
+				<value>bmp</value> 
+			</array>
+		</property>
+		<!-- ***************************** 列出指定目录下的文件 *****************************   -->
+		<!-- 执行文件管理的action名称    -->
+		<property name="fileManagerActionName" value="${ue.config.fileManagerActionName}" />
+		<!-- 指定要列出文件的目录    -->
+		<property name="fileManagerListPath" value="${ue.config.fileManagerListPath}" />
+		<!-- 文件访问路径前缀    -->
+		<property name="fileManagerUrlPrefix" value="${ue.config.fileManagerUrlPrefix}" />
+		<!-- 每次列出文件数量    -->
+		<property name="fileManagerListSize" value="${ue.config.fileManagerListSize}" />
+		<!-- 列出的文件类型    -->
+		<property name="fileManagerAllowFiles">
+			<array>
+				<value>png</value> 
+				<value>jpg</value> 
+				<value>jpeg</value> 
+				<value>gif</value> 
+				<value>bmp</value>
+				<value>flv</value> 
+				<value>swf</value> 
+				<value>mkv</value> 
+				<value>avi</value> 
+				<value>rm</value> 
+				<value>rmvb</value> 
+				<value>mpeg</value> 
+				<value>mpg</value>
+				<value>ogg</value> 
+				<value>ogv</value> 
+				<value>mov</value> 
+				<value>wmv</value> 
+				<value>mp4</value> 
+				<value>webm</value> 
+				<value>mp3</value> 
+				<value>wav</value> 
+				<value>mid</value>
+				<value>rar</value> 
+				<value>zip</value> 
+				<value>tar</value> 
+				<value>gz</value> 
+				<value>7z</value> 
+				<value>bz2</value> 
+				<value>cab</value> 
+				<value>iso</value>
+				<value>doc</value> 
+				<value>docx</value> 
+				<value>xls</value> 
+				<value>xlsx</value> 
+				<value>ppt</value> 
+				<value>pptx</value> 
+				<value>pdf</value> 
+				<value>txt</value> 
+				<value>md</value> 
+				<value>xml</value> 
+			</array>
+		</property>
+		<!-- 文件保存根目录    -->
+		<property name="rootPath" value="${ue.config.rootPath}" />
+	 </bean>
+	 
+</beans>

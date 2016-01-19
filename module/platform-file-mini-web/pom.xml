@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sivl</groupId>
+    <artifactId>sivl-platform-centre</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+	<relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>platform-file-mini-web</artifactId>
+  <packaging>war</packaging>
+  <name>platform-file-mini-web</name>
+  <description>file-mini-web静态文件</description>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  
+</project>

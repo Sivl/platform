@@ -37,5 +37,4 @@
 	        <ref bean="resubmitFilter"/>  
 	    </mvc:interceptor>
 	</mvc:interceptors>   
-
 </beans>
