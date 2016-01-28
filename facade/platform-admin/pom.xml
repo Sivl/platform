@@ -54,6 +54,12 @@
 			<artifactId>platform-ue</artifactId>
 			<version>${project.version}</version> 
 		</dependency>
+		<!-- flow 模块 -->
+		<dependency>
+			<groupId>org.sivl</groupId>
+			<artifactId>platform-flow</artifactId>
+			<version>${project.version}</version> 
+		</dependency>
 		
 		<!-- 公共web -->
 		<dependency>

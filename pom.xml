@@ -25,6 +25,7 @@
 		<module>module/platform-file-mini-web</module>
 		<module>module/platform-ue</module>
 		<module>module/platform-ue-web</module>
+		<module>module/platform-flow</module>
 	</modules>
 
 	<properties>

@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" charset="utf-8" src="/platform-admin/res/js/jquery/jquery-1.9.1.js"></script>
+<script type="text/javascript" charset="utf-8" src="/platform-admin/res/js/sivlplugin/sivl-plugin-1.0-all.js"></script>
 <script type="text/javascript" charset="utf-8" src="/platform-admin/res/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="/platform-admin/res/ueditor/ueditor.all.js?v=123"> </script>
 <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
@@ -51,6 +52,10 @@ BASE_URL = '/platform-admin';
 	    <div>
 	        <button onclick="getLocalData()" >获取草稿箱内容</button>
 	        <button onclick="clearLocalData()" >清空草稿箱</button>
+	    </div>
+	    
+	    <div>
+	        <button onclick="sendPlogTest()" >测试数据发送</button>
 	    </div>
 	
 	</div>
@@ -173,6 +178,16 @@ BASE_URL = '/platform-admin';
         UE.getEditor('editor').execCommand( "clearlocaldata" );
         alert("已清空草稿箱")
     }
+    
+    function sendPlogTest(){
+    	var options = {
+    			data : {pageName:"ue-demo",pageUrl:window.location.href}
+    	};
+    	SP.plog.pv(options);
+    }
+    
+    
+    SP.plog.remainTime({data : "?pageName=ue-demo&pageUrl="+window.location.href});
 </script>
 </body>
 </html>
