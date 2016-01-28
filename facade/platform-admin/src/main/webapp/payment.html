@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>api测试</title>
+<script type="text/javascript" src="res/js/jquery/jquery-1.9.1.js"></script>
+</head>
+<body>
+<table width="800px" align="center" border="1px" cellpadding="20" cellspacing="0">
+	<tr>
+		<td>请求前缀</td>
+		<td width="600px">
+			<input type="text" id="urlPre" size="50" value="http://zhoujobs.oicp.net/platform-admin"/>
+		</td>
+	</tr>
+	<tr>
+		<td>接口</td>
+		<td>
+			<select id="apiUrl" onchange="api.urlChange(this)">
+				<option value="">--请选择接口--</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td>token</td>
+		<td>
+			<!-- <input type="text" id="token" value="9a84cf36fdb0033de6f1636071fd3e28"/> -->
+			<div style="text-align:left; padding:5px;">
+				10-支付宝web、11-支付宝wap、12支付宝app</br>
+				13-银联web、14-银联wap、15-银联app</br>
+				16-财付通web、17-财付通wap、18-财付通app</br>
+				19-微信扫码、20-微信公众号、21-微信app、22-微信wap
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>参数</td>
+		<td>
+			<div id="paramsPanel"></div>
+		</td>
+	</tr>
+	<tr>
+		<td>操作</td>
+		<td>
+			<input type="button" id="postBtn" value="ajax请求"/>
+			<input type="button" id="httpBtn" value="获取http地址"/>
+			<input type="button" id="requestBtn" value="跳转第三方支付"/>
+		</td>
+	</tr>
+	<tr>
+		<td>返回结果</td>
+		<td>
+			<textarea rows="10" cols="80" id="result"></textarea>
+		</td>
+	</tr>
+</table>
+<script type="text/javascript">
+var chars = ['0','1','2','3','4','5','6','7','8','9'];
+var param = {
+        //生成10位的订单号
+        getOrderNo:function() {
+             var res = "";
+             for(var i = 0; i < 8 ; i ++) {
+                 var id = Math.ceil(Math.random()*9);
+                 res += chars[id];
+             }
+             return res;
+        }
+};
+var api = {
+		list : {
+				'payment' : {type: 0, name: '支付接口接口'},
+				'payment-exec' : {type: 1, name: '|--支付', url: '/pay/payment', signIds:[], params: '{"channel":"17","outTradeNo":'+param.getOrderNo()+',"tradeFee":"0.01","subject":"第三方支付接口付费","body":"第三方支付接口付费-测试","overtime":"30","openId":"oVS6guPj-Wn0HBxp80W3Y_RybCP4"}'},
+	
+		},
+        init : function() {
+        	//初始化下拉框
+        	var _apiUrl = $('#apiUrl');
+        	$.each(api.list, function(key, obj) {
+        		if(obj.type === 0) {
+            		_apiUrl.append(['<optgroup label="',obj.name,'"></optgroup>'].join(''));
+        		} else {
+            		_apiUrl.append(['<option value="',key,'">',obj.name,'</option>'].join(''));
+        		}
+        	});
+        },
+        urlChange : function(_this) {
+        	var _obj = api.list[_this.value];
+
+    		var _cid = '0';
+    		var _time = new Date().valueOf();
+    		var _params = '';
+    		if(_obj.signIds!=undefined && _obj.signIds!=null) {
+	    		$.each(_obj.signIds, function(i, obj) {
+	    			var _val = $('#' + obj).val();
+	    			if(_val != undefined && _val != null)
+	    				_params += _val;
+	    		});
+    		}
+    		$.ajax({
+    			url: $('#urlPre').val(),
+    			data: {cid: _cid, time: _time, token: $('#token').val(), params: _params},
+    			type: 'post',
+    			dataType: 'text',
+    			error: function() {
+    				alert('请求失败');
+    			},
+    			success: function(sign) {
+    				var _paramsPanel = $('#paramsPanel').empty();
+    				_paramsPanel.append('<p><textarea id="data" rows="6" cols="80"></textarea></p>');
+    				$('#data').val(_obj.params);
+    				$('#result').val('');
+    			}
+    		});
+        }
+};
+$(function() {
+	api.init();
+	$('#requestBtn').click(function() {
+	var _obj = api.list[$('#apiUrl').val()];
+		var _url = _obj.url;
+		var _data = {};
+		$('.params').each(function(i, obj) {
+			_data[$(obj).attr('data-name')] = $(obj).val();
+		});
+		_data['params'] = $('#data').val();
+		$.ajax({
+			url: $('#urlPre').val() + _url,
+			data: _data,
+			type: 'post',
+			dataType: 'text',
+			error: function() {
+				alert('请求失败');
+			},
+			success: function(result) {
+				var rs = jQuery.parseJSON(result);
+				if(rs.code=='S'){
+					//财付通特殊处理
+					if(rs.ext.channel==16){
+						window.location.href = rs.data;
+					}else{
+						$("body:eq(0)").html(rs.data);
+					}
+				}else{
+					alert(rs.msg);
+				}
+			}
+		});
+	});
+	$('#httpBtn').click(function() {
+		var _obj = api.list[$('#apiUrl').val()];
+		
+		var _params = '';
+		if(_obj.signIds!=undefined && _obj.signIds!=null) {
+			$.each(_obj.signIds, function(i, obj) {
+				var _val = $('#' + obj).val();
+				if(_val != undefined && _val != null)
+					_params += _val;
+			});
+		}
+		var _url = $('#urlPre').val() + _obj.url;
+		var _params = [];
+		$('.params').each(function(i, obj) {
+			var _pVal = $(obj).val();
+			_params.push($(obj).attr('data-name') + '=' + encodeURI(_pVal));
+		});
+		_params.push('params=' + $('#data').val());
+		$('#result').val(_url + '?' + _params.join('&'));
+	
+	});
+	$('#postBtn').click(function() {
+		var _obj = api.list[$('#apiUrl').val()];
+		var _url = _obj.url;
+		
+		var _params = '';
+		if(_obj.signIds!=undefined && _obj.signIds!=null) {
+			$.each(_obj.signIds, function(i, obj) {
+				var _val = $('#' + obj).val();
+				if(_val != undefined && _val != null)
+					_params += _val;
+			});
+		}
+		var _data = {};
+		$('.params').each(function(i, obj) {
+			_data[$(obj).attr('data-name')] = $(obj).val();
+		});
+		_data['params'] = $('#data').val();
+		$.ajax({
+			url: $('#urlPre').val() + _url,
+			data: _data,
+			type: 'post',
+			dataType: 'text',
+			error: function() {
+				alert('请求失败');
+			},
+			success: function(text) {
+				$('#result').val(text);
+			}
+		});
+	});
+
+});
+</script>
+</body>
+</html>
