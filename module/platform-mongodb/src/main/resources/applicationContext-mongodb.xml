@@ -20,7 +20,7 @@
 
 	<!--connect-timeout连接超时时间   max-wait-time等待时间  socket-timeoutSocket超时时间-->
 	<!-- 注册一个 mongodb实例 -->
-	<mongo:mongo host="${mongo.host}" port="${mongo.port}" >
+	<mongo:mongo host="${mongo.host}" port="${mongo.port}" id="mongo" >
 	  	<mongo:options
 		     connections-per-host="${mongo.connectionsPerHost}"
 		     threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"

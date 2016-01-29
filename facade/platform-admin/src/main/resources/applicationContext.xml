@@ -19,9 +19,9 @@
         http://www.springframework.org/schema/data/mongo/spring-mongo.xsd ">
 
 	<import resource="classpath:/applicationContext-property.xml"/>
-	<import resource="classpath:/applicationContext-mongodb.xml"/>
+<!-- 	<import resource="classpath:/applicationContext-mongodb.xml"/> -->
 	<import resource="classpath:/applicationContext-redis.xml"/> 
-	<!-- <import resource="classpath:/applicationContext-db.xml"/> -->
+	<import resource="classpath:/applicationContext-db.xml"/>
 	<import resource="classpath:/applicationContext-interceptors.xml"/>
 	<import resource="classpath:/applicationContext-minifile.xml"/>
 	<import resource="classpath:/applicationContext-ue.xml"/>
